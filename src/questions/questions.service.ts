@@ -20,19 +20,20 @@ export class QuestionsService {
 
     async createQuestion(createQuestionDto: CreateQuestionDto, categoryId: number, user: UserEntity) {
         const author: UserEntity = user;
-        const category: CategoryEntity = await this.categoryRepository.findOne({id: categoryId});
+        const category: CategoryEntity = await this.categoryRepository.findOne({ id: categoryId });
         const question: QuestionEntity = await this.questionRepository.create({
-            ...createQuestionDto,
-            category,
+            // ...createQuestionDto,
+            title: 'ali',
+            description: 'pejman',
+            category: category,
             author,
         });
         await this.questionRepository.save(question);
-        return question;
+        return category;
     }
 
     async getAllQuestions() {
         const questions = await this.questionRepository.find();
-        console.log(questions);
         return questions;
     }
 }
