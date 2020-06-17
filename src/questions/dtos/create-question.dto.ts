@@ -1,6 +1,6 @@
 import { IsString, MaxLength, IsNumber } from 'class-validator';
-import { Category } from 'src/categories/interfaces/category.interface';
-import { User } from 'src/users/interfaces/user.interface';
+import { CategoryEntity } from 'src/categories/entities/category.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 export class CreateQuestionDto {
 
@@ -12,9 +12,7 @@ export class CreateQuestionDto {
     @MaxLength(256)
     readonly description: string;
 
-    @IsNumber()
-    readonly category: Category;
+    readonly category: CategoryEntity;
 
-    @IsNumber()
-    readonly author: User;
+    readonly author: UserEntity;
 }

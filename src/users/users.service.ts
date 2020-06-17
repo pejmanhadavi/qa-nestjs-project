@@ -5,7 +5,6 @@ import { sign } from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
 import { UserEntity } from './entities/user.entity';
-import { User } from './interfaces/user.interface';
 import { RegisterLoginUserDto } from './dtos/register-login.dto';
 
 
@@ -21,17 +20,17 @@ export class UsersService {
     // ┴  └─┘└─┘┴─┘┴└─┘  ┴ ┴└─┘ ┴ ┴ ┴└─┘─┴┘└─┘
 
     async register(registerDto: RegisterLoginUserDto): Promise<object> {
-        const user: User = await this.findUserByUsername(registerDto.username);
+        const user: UserEntity = await this.findUserByUsername(registerDto.username);
         if (user) {
             throw new BadRequestException('Choose another username.');
         }
-        const newUser: User = await this.createUser(registerDto);
+        const newUser: UserEntity = await this.createUser(registerDto);
         const token: string = this.createAccessToken(newUser.id);
         return { token };
     }
 
     async login(loginDto: RegisterLoginUserDto) {
-        const user: User = await this.findUserByUsername(loginDto.username);
+        const user: UserEntity = await this.findUserByUsername(loginDto.username);
         if (!user) {
             throw new UnauthorizedException('User not found.');
         }
@@ -43,8 +42,8 @@ export class UsersService {
         return { token };
     }
 
-    async findUserById(id: number): Promise<User> {
-        const user: User = await this.userRepository.findOne({ id });
+    async findUserById(id: number): Promise<UserEntity> {
+        const user: UserEntity = await this.userRepository.findOne({ id });
         if (!user)
             throw new UnauthorizedException();
         return user;
@@ -54,12 +53,12 @@ export class UsersService {
     // ├─┘├┬┘│└┐┌┘├─┤ │ ├┤   │││├┤  │ ├─┤│ │ ││└─┐
     // ┴  ┴└─┴ └┘ ┴ ┴ ┴ └─┘  ┴ ┴└─┘ ┴ ┴ ┴└─┘─┴┘└─┘
 
-    private async findUserByUsername(username: string): Promise<User> {
+    private async findUserByUsername(username: string): Promise<UserEntity> {
         return await this.userRepository.findOne({ username });
     }
 
-    private async createUser(data: RegisterLoginUserDto): Promise<User> {
-        const user: User = await this.userRepository.create(data);
+    private async createUser(data: RegisterLoginUserDto): Promise<UserEntity> {
+        const user: UserEntity = await this.userRepository.create(data);
         await this.userRepository.save(user);
         return user;
     }
