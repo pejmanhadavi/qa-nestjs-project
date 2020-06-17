@@ -32,9 +32,19 @@ describe('AuthService', () => {
 
     authService = module.get<AuthService>(AuthService);
     usersService = module.get<UsersService>(UsersService);
+    userRepo = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
   });
 
   it('should be defined', () => {
     expect(authService).toBeDefined();
+  });
+
+  describe('validateUser', () => {
+    it('should return user', async () => {
+      const givenUser = await authService.validateUser({ id: 1 });
+      expect(givenUser).toEqual(user);
+      expect(userRepo.findOne).toBeCalledTimes(1);
+      expect(userRepo.findOne).toBeCalledWith({id: 1});
+    });
   });
 });
