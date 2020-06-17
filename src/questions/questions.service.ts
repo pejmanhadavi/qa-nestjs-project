@@ -51,4 +51,11 @@ export class QuestionsService {
             relations: ['author', 'category'],
         });
     }
+
+    async getMyQuestions(user) {
+        return await this.questionRepository.find({
+            where: {author: user.id},
+            relations: ['category'],
+        });
+    }
 }

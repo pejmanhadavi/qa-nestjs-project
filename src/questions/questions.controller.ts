@@ -27,13 +27,15 @@ export class QuestionsController {
         return await this.questionsService.getQuestionsByCategory(param.categoryId);
     }
 
+    @Get('me')
+    @UseGuards(AuthGuard('jwt'))
+    async getUserAllQuestions(@Req() req) {
+        return await this.questionsService.getMyQuestions(req.user);
+    }
+
     @Get(':questionId')
     async getQuestion(@Param() param) {
         return await this.questionsService.getQuestionById(param.questionId);
     }
 
-    @Get('myQuestions')
-    async getUserAllQuestions() {
-        return;
-    }
 }
