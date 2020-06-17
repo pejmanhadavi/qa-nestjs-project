@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { sign } from 'jsonwebtoken';
 
 import { UserEntity } from './entities/user.entity';
 import { User } from './interfaces/user.interface';
 import { RegisterLoginUserDto } from './dtos/register-login.dto';
-import { AuthService } from 'src/auth/auth.service';
 
 
 @Injectable()
@@ -13,7 +13,6 @@ export class UsersService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
-        private readonly authService: AuthService,
     ) { }
 
     // ┌─┐┬ ┬┌┐ ┬  ┬┌─┐  ┌┬┐┌─┐┌┬┐┬ ┬┌─┐┌┬┐┌─┐
@@ -26,7 +25,7 @@ export class UsersService {
             throw new BadRequestException('Choose another username.');
         }
         const newUser: User = await this.createUser(registerDto);
-        const token: string = this.authService.createAccessToken(newUser.id);
+        const token: string = this.createAccessToken(newUser.id);
         return token;
     }
 
@@ -49,7 +48,13 @@ export class UsersService {
 
     private async createUser(data: RegisterLoginUserDto): Promise<User> {
         const user: User = await this.userRepository.create(data);
+        await this.userRepository.save(user);
         return user;
+    }
+
+    private createAccessToken(userId: number): string {
+        const accessToken = sign({ userId }, 'verysecretpassword', { expiresIn: '30d' });
+        return accessToken;
     }
 
 }
