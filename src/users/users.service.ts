@@ -19,14 +19,14 @@ export class UsersService {
     // ├─┘│ │├┴┐│  ││    │││├┤  │ ├─┤│ │ ││└─┐
     // ┴  └─┘└─┘┴─┘┴└─┘  ┴ ┴└─┘ ┴ ┴ ┴└─┘─┴┘└─┘
 
-    async register(registerDto: RegisterLoginUserDto): Promise<string> {
+    async register(registerDto: RegisterLoginUserDto): Promise<object> {
         const user: User = await this.findUserByUsername(registerDto.username);
         if (user) {
             throw new BadRequestException('Choose another username.');
         }
         const newUser: User = await this.createUser(registerDto);
         const token: string = this.createAccessToken(newUser.id);
-        return token;
+        return { token };
     }
 
     async login(loginDto: RegisterLoginUserDto) {

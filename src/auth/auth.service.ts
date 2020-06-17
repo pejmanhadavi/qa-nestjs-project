@@ -22,8 +22,10 @@ export class AuthService {
     //   ┬┬ ┬┌┬┐  ┌─┐─┐ ┬┌┬┐┬─┐┌─┐┌─┐┌┬┐┌─┐┬─┐
     //   ││││ │   ├┤ ┌┴┬┘ │ ├┬┘├─┤│   │ │ │├┬┘
     //  └┘└┴┘ ┴   └─┘┴ └─ ┴ ┴└─┴ ┴└─┘ ┴ └─┘┴└─
-    private jwtExtractor(request) {
-        const token = request.headers.authorization.replace('Bearer ', '').replace(' ', '');
+    private jwtExtractor(request): string {
+        let token: string = null;
+        if (request.headers.authorization)
+            token = request.headers.authorization.replace('Bearer ', '').replace(' ', '');
         return token;
     }
 
