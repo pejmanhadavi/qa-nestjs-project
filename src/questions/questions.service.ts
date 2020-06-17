@@ -43,14 +43,14 @@ export class QuestionsService {
         });
     }
 
-    async getQuestionById(questionId): Promise<QuestionEntity> {
+    async getQuestionById(questionId: number): Promise<QuestionEntity> {
         return await this.questionRepository.findOne({
             where: {id: questionId},
             relations: ['author', 'category'],
         });
     }
 
-    async getMyQuestions(user): Promise<QuestionEntity[]> {
+    async getMyQuestions(user: UserEntity): Promise<QuestionEntity[]> {
         return await this.questionRepository.find({
             where: {author: user.id},
             relations: ['category', 'answers'],
