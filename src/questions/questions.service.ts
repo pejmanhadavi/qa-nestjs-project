@@ -44,4 +44,11 @@ export class QuestionsService {
         });
         return questions;
     }
+
+    async getQuestionById(questionId) {
+        return await this.questionRepository.findOne({
+            where: {id: questionId},
+            relations: ['author', 'category'],
+        });
+    }
 }

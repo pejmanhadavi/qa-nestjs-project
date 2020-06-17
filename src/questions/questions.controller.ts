@@ -9,6 +9,11 @@ export class QuestionsController {
     constructor(
         private readonly questionsService: QuestionsService,
     ) { }
+    
+    @Get()
+    async getAllQuestions() {
+        return await this.questionsService.getAllQuestions();
+    }
 
     @Post('categories/:categoryId')
     @UseGuards(AuthGuard('jwt'))
@@ -16,10 +21,6 @@ export class QuestionsController {
         return this.questionsService.createQuestion(createQuestionDto, param.categoryId, req.user);
     }
 
-    @Get()
-    async getAllQuestions() {
-        return await this.questionsService.getAllQuestions();
-    }
 
     @Get('categories/:categoryId')
     async getAllQuestionsByCategory(@Param() param) {
@@ -27,8 +28,8 @@ export class QuestionsController {
     }
 
     @Get(':questionId')
-    async getQuestion() {
-        return;
+    async getQuestion(@Param() param) {
+        return await this.questionsService.getQuestionById(param.questionId);
     }
 
     @Get('myQuestions')
