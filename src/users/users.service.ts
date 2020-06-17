@@ -51,6 +51,10 @@ export class UsersService {
         return user;
     }
 
+    // ┌─┐┬─┐┬┬  ┬┌─┐┌┬┐┌─┐  ┌┬┐┌─┐┌┬┐┬ ┬┌─┐┌┬┐┌─┐
+    // ├─┘├┬┘│└┐┌┘├─┤ │ ├┤   │││├┤  │ ├─┤│ │ ││└─┐
+    // ┴  ┴└─┴ └┘ ┴ ┴ ┴ └─┘  ┴ ┴└─┘ ┴ ┴ ┴└─┘─┴┘└─┘
+
     private async findUserByUsername(username: string): Promise<User> {
         return await this.userRepository.findOne({ username });
     }
