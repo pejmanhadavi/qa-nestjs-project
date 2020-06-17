@@ -22,14 +22,12 @@ export class QuestionsService {
         const author: UserEntity = user;
         const category: CategoryEntity = await this.categoryRepository.findOne({ id: categoryId });
         const question: QuestionEntity = await this.questionRepository.create({
-            // ...createQuestionDto,
-            title: 'ali',
-            description: 'pejman',
-            category: category,
+            ...createQuestionDto,
+            category,
             author,
         });
         await this.questionRepository.save(question);
-        return category;
+        return question;
     }
 
     async getAllQuestions() {
