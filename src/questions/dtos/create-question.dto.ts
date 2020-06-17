@@ -11,8 +11,4 @@ export class CreateQuestionDto {
     @IsString()
     @MaxLength(256)
     readonly description: string;
-
-    readonly category: CategoryEntity;
-
-    readonly author: UserEntity;
 }
