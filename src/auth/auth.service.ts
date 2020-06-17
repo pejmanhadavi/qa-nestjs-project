@@ -10,6 +10,7 @@ export class AuthService {
     ) { }
 
     async validateUser(jwtPayload: JwtPayload): Promise<any> {
+        console.log(jwtPayload);
         const user = await this.usersService.findUserById(jwtPayload.id);
         if (!user) {
             throw new UnauthorizedException();

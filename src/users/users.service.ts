@@ -52,8 +52,8 @@ export class UsersService {
         return user;
     }
 
-    private createAccessToken(userId: number): string {
-        const accessToken = sign({ userId }, 'verysecretpassword', { expiresIn: '30d' });
+    private createAccessToken(id: number): string {
+        const accessToken = sign({ id }, 'verysecretpassword', { expiresIn: '30d' });
         return accessToken;
     }
 
