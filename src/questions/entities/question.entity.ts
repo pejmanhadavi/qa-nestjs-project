@@ -7,9 +7,9 @@ import {
     ManyToOne
 } from 'typeorm';
 
-import { UserEntity } from 'src/users/entities/user.entity';
-import { AnswerEntity } from 'src/answers/entities/answer.entity';
-import { CategoryEntity } from 'src/categories/entities/category.entity';
+import { UserEntity } from '../../users/entities/user.entity';
+import { AnswerEntity } from '../../answers/entities/answer.entity';
+import { CategoryEntity } from '../../categories/entities/category.entity';
 
 
 @Entity('question')

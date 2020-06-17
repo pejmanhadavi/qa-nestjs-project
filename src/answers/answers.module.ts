@@ -3,8 +3,8 @@ import { AnswersController } from './answers.controller';
 import { AnswersService } from './answers.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { QuestionEntity } from 'src/questions/entities/question.entity';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { QuestionEntity } from '../questions/entities/question.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { AnswerEntity } from './entities/answer.entity';
 
 @Module({

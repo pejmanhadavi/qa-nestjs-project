@@ -4,7 +4,7 @@ import {
     PrimaryGeneratedColumn,
     OneToMany
 } from 'typeorm';
-import { QuestionEntity } from 'src/questions/entities/question.entity';
+import { QuestionEntity } from '../../questions/entities/question.entity';
 
 
 @Entity('category')

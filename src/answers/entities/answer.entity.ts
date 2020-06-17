@@ -6,8 +6,8 @@ import {
     ManyToOne,
     OneToMany
 } from 'typeorm';
-import { UserEntity } from 'src/users/entities/user.entity';
-import { QuestionEntity } from 'src/questions/entities/question.entity';
+import { UserEntity } from '../../users/entities/user.entity';
+import { QuestionEntity } from '../../questions/entities/question.entity';
 
 
 @Entity('answer')

@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { AnswerEntity } from './entities/answer.entity';
-import { QuestionEntity } from 'src/questions/entities/question.entity';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { QuestionEntity } from '../questions/entities/question.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 
 

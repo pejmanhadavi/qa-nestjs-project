@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { QuestionEntity } from 'src/questions/entities/question.entity'
-import { AnswerEntity } from 'src/answers/entities/answer.entity';
+import { QuestionEntity } from '../../questions/entities/question.entity'
+import { AnswerEntity } from '../../answers/entities/answer.entity';
 
 
 @Entity('user')
