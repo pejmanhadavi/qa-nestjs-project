@@ -3,9 +3,13 @@ import {
     Column,
     BeforeInsert,
     BeforeUpdate,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    OneToMany
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+
+import { QuestionEntity } from 'src/questions/entities/question.entity'
+import { AnswerEntity } from 'src/answers/entities/answer.entity';
 
 
 @Entity('user')
@@ -27,4 +31,9 @@ export class UserEntity {
         this.password = await bcrypt.hash(this.password, 10);
     }
 
+    @OneToMany(type => QuestionEntity, question => question.author, { cascade: true })
+    questions: QuestionEntity[];
+    
+    @OneToMany(type => AnswerEntity, answer => answer.author, { cascade: true })
+    answers: AnswerEntity[];    
 }
