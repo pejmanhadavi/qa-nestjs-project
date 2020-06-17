@@ -18,9 +18,9 @@ export class QuestionsService {
         private readonly userRepository: Repository<UserEntity>,
     ) { }
 
-    async createQuestion(createQuestionDto: CreateQuestionDto, categoryId: number, user: UserEntity) {
+    async createQuestion(createQuestionDto: CreateQuestionDto, categoryId: number, user: UserEntity): Promise<QuestionEntity> {
         const author: UserEntity = user;
-        const category = await this.categoryRepository.findOne({ id: categoryId });
+        const category: CategoryEntity = await this.categoryRepository.findOne({ id: categoryId });
         const question: QuestionEntity = await this.questionRepository.create({
             ...createQuestionDto,
             category,
@@ -30,32 +30,30 @@ export class QuestionsService {
         return question;
     }
 
-    async getAllQuestions() {
-        const questions = await this.questionRepository.find({
+    async getAllQuestions(): Promise<QuestionEntity[]> {
+        return await this.questionRepository.find({
             relations: ['author', 'category']
         });
-        return questions;
     }
 
-    async getQuestionsByCategory(categoryId: number) {
-        const questions = await this.questionRepository.find({
+    async getQuestionsByCategory(categoryId: number): Promise<QuestionEntity[]> {
+        return await this.questionRepository.find({
             where: {category: categoryId},
             relations: ['author', 'category']
         });
-        return questions;
     }
 
-    async getQuestionById(questionId) {
+    async getQuestionById(questionId): Promise<QuestionEntity> {
         return await this.questionRepository.findOne({
             where: {id: questionId},
             relations: ['author', 'category'],
         });
     }
 
-    async getMyQuestions(user) {
+    async getMyQuestions(user): Promise<QuestionEntity[]> {
         return await this.questionRepository.find({
             where: {author: user.id},
-            relations: ['category'],
+            relations: ['category', 'answers'],
         });
     }
 }
