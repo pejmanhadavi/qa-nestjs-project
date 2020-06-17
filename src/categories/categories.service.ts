@@ -13,14 +13,14 @@ export class CategoriesService {
         private readonly categoryRepository: Repository<CategoryEntity>,
     ) { }
 
-    async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
-        const category: Category = await this.categoryRepository.create(createCategoryDto);
+    async createCategory(createCategoryDto: CreateCategoryDto): Promise<CategoryEntity> {
+        const category: CategoryEntity = await this.categoryRepository.create(createCategoryDto);
         await this.categoryRepository.save(category);
         return category;
     }
 
-    async getAllCategories(): Promise<Category[]> {
-        const categories: Category[] = await this.categoryRepository.find();
+    async getAllCategories(): Promise<CategoryEntity[]> {
+        const categories: CategoryEntity[] = await this.categoryRepository.find();
         return categories;
     }
 }
