@@ -12,8 +12,8 @@ export class QuestionsController {
 
     @Post('categories/:categoryId')
     @UseGuards(AuthGuard('jwt'))
-    async createQuestion(@Body() createQuestionDto: CreateQuestionDto, @Param() categoryId: number,@Req() req ) {
-        return this.questionsService.createQuestion(createQuestionDto, categoryId, req.user);
+    async createQuestion(@Body() createQuestionDto: CreateQuestionDto, @Param() param , @Req() req) {
+        return this.questionsService.createQuestion(createQuestionDto, param.categoryId, req.user);
     }
 
     @Get()
@@ -22,8 +22,8 @@ export class QuestionsController {
     }
 
     @Get('categories/:categoryId')
-    async getAllQuestionsByCategory() {
-        return;
+    async getAllQuestionsByCategory(@Param() param) {
+        return await this.questionsService.getQuestionsByCategory(param.categoryId);
     }
 
     @Get(':questionId')

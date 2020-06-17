@@ -20,7 +20,7 @@ export class QuestionsService {
 
     async createQuestion(createQuestionDto: CreateQuestionDto, categoryId: number, user: UserEntity) {
         const author: UserEntity = user;
-        const category: CategoryEntity = await this.categoryRepository.findOne({ id: categoryId });
+        const category = await this.categoryRepository.findOne({ id: categoryId });
         const question: QuestionEntity = await this.questionRepository.create({
             ...createQuestionDto,
             category,
@@ -31,7 +31,17 @@ export class QuestionsService {
     }
 
     async getAllQuestions() {
-        const questions = await this.questionRepository.find();
+        const questions = await this.questionRepository.find({
+            relations: ['author', 'category']
+        });
+        return questions;
+    }
+
+    async getQuestionsByCategory(categoryId: number) {
+        const questions = await this.questionRepository.find({
+            where: {category: categoryId},
+            relations: ['author', 'category']
+        });
         return questions;
     }
 }
