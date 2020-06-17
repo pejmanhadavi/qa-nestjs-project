@@ -12,9 +12,9 @@ export class QuestionsService {
         private readonly questionRepository: Repository<QuestionEntity>,
     ) { }
 
-    async createQuestion(createQuestionDto: CreateQuestionDto) {
-        // const question: QuestionEntity = await this.questionRepository.create(createQuestionDto);
-        // await this.questionRepository.save(question);
-        // return question;
+    async createQuestion(createQuestionDto: CreateQuestionDto): Promise<QuestionEntity> {
+        const question: QuestionEntity = await this.questionRepository.create(createQuestionDto);
+        await this.questionRepository.save(question);
+        return question;
     }
 }
