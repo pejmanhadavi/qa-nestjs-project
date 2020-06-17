@@ -1,4 +1,5 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import { UsersService } from './users.service';
 import { RegisterLoginUserDto } from './dtos/register-login.dto';
@@ -10,6 +11,7 @@ export class UsersController {
 
 
     @Post()
+    @UseGuards(AuthGuard('jwt'))
     register() {
         return 'registered.';
     }
