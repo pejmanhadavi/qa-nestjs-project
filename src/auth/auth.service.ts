@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
 
 import { UsersService } from 'src/users/users.service';
@@ -8,11 +7,10 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly jwtService: JwtService,
         private readonly usersService: UsersService,
     ) { }
 
-    async createAccessToken(userId: number) {
+    createAccessToken(userId: number): string {
         const accessToken = sign({ userId }, 'verysecretpassword', { expiresIn: '30d' });
         return accessToken;
     }
