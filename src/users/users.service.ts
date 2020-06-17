@@ -2,10 +2,12 @@ import { Injectable, NotFoundException, UnauthorizedException, BadRequestExcepti
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 
 import { UserEntity } from './entities/user.entity';
 import { User } from './interfaces/user.interface';
 import { RegisterLoginUserDto } from './dtos/register-login.dto';
+import { match } from 'assert';
 
 
 @Injectable()
@@ -30,9 +32,16 @@ export class UsersService {
     }
 
     async login(loginDto: RegisterLoginUserDto) {
-        // Find user
-        // Check password
-        // generate jwt
+        const user: User = await this.findUserByUsername(loginDto.username);
+        if (!user) {
+            throw new UnauthorizedException('User not found.');
+        }
+        const match = await this.checkPassword(loginDto.password, user);
+        if (!match) {
+            throw new UnauthorizedException('Wrong user or password.');
+        }
+        const token: string = this.createAccessToken(user.id);
+        return { token };
     }
 
     async findUserById(id: number): Promise<User> {
@@ -57,4 +66,8 @@ export class UsersService {
         return accessToken;
     }
 
+    private async checkPassword(password: string, user: any): Promise<boolean> {
+        const match = await bcrypt.compare(password, user.password);
+        return match;
+    }
 }
