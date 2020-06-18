@@ -27,7 +27,7 @@ export class AnswersService {
             question,
             author,
         });
-        await this.questionRepository.save(question);
+        await this.answerRepository.save(answer);
         return answer;
     }
 }
