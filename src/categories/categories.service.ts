@@ -23,8 +23,11 @@ export class CategoriesService {
         return categories;
     }
 
-    async getCategory(id: number): Promise<CategoryEntity[]> {
-        const category: CategoryEntity[] = await this.categoryRepository.find({id});
+    async getCategory(id: number): Promise<CategoryEntity> {
+        const category: CategoryEntity = await this.categoryRepository.findOne({
+            where: {id},
+            relations: ['questions'],
+        });
         return category;
     }
 }
