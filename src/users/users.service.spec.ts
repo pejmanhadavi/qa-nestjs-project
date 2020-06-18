@@ -62,12 +62,18 @@ describe('UsersService', () => {
       const token = await usersService.login({ username: 'username', password: 'verysecretpassword' });
       expect(token).toBeDefined();
     });
-    it('should not login with wrong password.', async() => {
+    it('should not login with wrong password.', async () => {
       await expect(usersService.login({ username: 'username', password: 'wrong pass' })).rejects.toThrow();
     });
   });
 
   describe('findUserById', () => {
-
+    it('should return user if exists', async () => {
+      const user = await usersService.findUserById(1);
+      expect(user).toBe(user);
+    });
+    it('should not return user if does not exist', async () => {
+      await expect(usersService.findUserById(2)).rejects.toThrow();
+    });
   });
 });
