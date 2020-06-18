@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
@@ -8,7 +9,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 const user = new UserEntity();
 user.id = 1;
 user.username = 'username';
-user.password = 'verysecretpassword';
 
 describe('UsersService', () => {
   let usersService: UsersService;
@@ -37,6 +37,7 @@ describe('UsersService', () => {
 
     usersService = module.get<UsersService>(UsersService);
     userRepo = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
+    user.password = await bcrypt.hash('verysecretpassword', 10);
   });
 
   it('should be defined', () => {
@@ -45,16 +46,25 @@ describe('UsersService', () => {
 
   describe('register', () => {
     it('should not register if username exists', async () => {
-      await expect(usersService.register({ username: 'username', password: 'secretpass' })).rejects.toThrow();
+      await expect(usersService.register({ username: 'username', password: 'verysecretpassword' })).rejects.toThrow();
     });
     it('should register user if username does not exists', async () => {
-      const token = await usersService.register({username: 'another username', password: 'secretpass'});
+      const token = await usersService.register({ username: 'another username', password: 'verysecretpassword' });
       expect(token).toBeDefined();
     });
   });
 
   describe('login', () => {
-
+    it('should not login if username does not exist.', async () => {
+      await expect(usersService.login({ username: 'another username', password: 'verysecretpassword' })).rejects.toThrow();
+    });
+    it('should login if username exists.', async () => {
+      const token = await usersService.login({ username: 'username', password: 'verysecretpassword' });
+      expect(token).toBeDefined();
+    });
+    it('should not login with wrong password.', async() => {
+      await expect(usersService.login({ username: 'username', password: 'wrong pass' })).rejects.toThrow();
+    });
   });
 
   describe('findUserById', () => {
